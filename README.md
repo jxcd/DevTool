@@ -1,3 +1,15 @@
+
+# DevTool
+
+## 工具和环境
+
+1. AndroidStudio
+2. [graalvm 17](https://www.graalvm.org/downloads/#)
+
+
+
+----------------------------------
+
 This is a Kotlin Multiplatform project targeting Android, Desktop.
 
 * `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
