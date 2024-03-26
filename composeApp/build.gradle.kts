@@ -31,6 +31,10 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+
+            // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+            implementation(libs.jackson.databind)
+
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
