@@ -84,10 +84,10 @@ fun InputTextWithSubmit(
 @Composable
 fun InputNumber(
     label: String,
-    value: Int?,
-    range: IntRange = 0..Int.MAX_VALUE,
+    value: Long?,
+    range: LongRange = 0..Long.MAX_VALUE,
     tips: String = "",
-    onValueChange: (Int?) -> Unit,
+    onValueChange: (Long?) -> Unit,
     trailingIcon: @Composable (() -> Unit)? = null,
     enabled: Boolean = true,
     width: Dp = 400.dp,
@@ -101,7 +101,7 @@ fun InputNumber(
     InputValue(
         label = label,
         value = value?.toString() ?: "",
-        onValueChange = { onValueChange(it.toIntOrNull()) },
+        onValueChange = { onValueChange(it.toLongOrNull()) },
         rangeCheck = rangeCheck,
         tips = tips,
         trailingIcon = trailingIcon,

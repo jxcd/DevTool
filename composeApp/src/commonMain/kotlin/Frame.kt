@@ -13,10 +13,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import json.JsonTool
+import pages.TimeTool
 
 @Composable
 fun Frame() {
-    val pages = listOf("JsonTool", "Debug")
+    val pages = listOf("JsonTool", "TimeTool", "Debug")
     Card {
         var page by remember { mutableStateOf(pages.first()) }
 
@@ -35,10 +36,10 @@ fun Frame() {
                 }
             }
 
-            if (page == "JsonTool") {
-                JsonTool()
-            } else {
-                Debug()
+            when (page) {
+                "JsonTool" -> JsonTool()
+                "TimeTool" -> TimeTool()
+                else -> Debug()
             }
         }
     }
