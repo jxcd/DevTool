@@ -13,11 +13,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import pages.JsonTool
+import pages.RegexTool
 import pages.TimeTool
 
 @Composable
 fun Frame() {
-    val pages = listOf("JsonTool", "TimeTool", "Debug")
+    val pages = listOf("JsonTool", "TimeTool", "RegexTool", "Debug")
     Card {
         var page by remember { mutableStateOf(pages.first()) }
 
@@ -39,6 +40,7 @@ fun Frame() {
             when (page) {
                 "JsonTool" -> JsonTool()
                 "TimeTool" -> TimeTool()
+                "RegexTool" -> RegexTool()
                 else -> Debug()
             }
         }
