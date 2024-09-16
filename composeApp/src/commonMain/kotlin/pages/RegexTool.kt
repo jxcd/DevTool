@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Checkbox
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
@@ -59,7 +60,7 @@ fun RegexTool() {
                 Text("忽略大小写")
             }
 
-            TextField(
+            OutlinedTextField(
                 value = output,
                 onValueChange = {},
                 modifier = modifierTextArea,
