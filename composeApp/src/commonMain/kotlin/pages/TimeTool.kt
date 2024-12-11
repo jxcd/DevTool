@@ -28,6 +28,7 @@ import com.cronutils.model.definition.CronDefinitionBuilder
 import com.cronutils.model.time.ExecutionTime
 import com.cronutils.parser.CronParser
 import compose.InputText
+import compose.SelectOptions
 import util.TimeUtil
 import java.time.LocalDateTime
 import java.time.ZonedDateTime
@@ -86,7 +87,8 @@ fun TimestampAndDateTime() {
 
 @Composable
 fun Cron() {
-    // 秒 分 时 日 月 年
+    val cronTypes = listOf("SPRING", "UNIX", "QUARTZ", "CRON4J", "SPRING53")
+    var cronType by remember { mutableStateOf(cronTypes.first()) }
     var cronExpression by remember { mutableStateOf("0 * * * * ?") }
     var cronTimes by remember { mutableStateOf("5") }
     var cronOutput by remember { mutableStateOf("") }
@@ -95,13 +97,20 @@ fun Cron() {
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+
+        SelectOptions(
+            label = "类型",
+            value = cronType,
+            cronTypes,
+            onValueChange = { cronType = it })
+
         InputText(
             label = "Cron表达式",
             value = cronExpression,
             onValueChange = { cronExpression = it })
 
         Button(onClick = {
-            cronOutput = cronParse(cronExpression, cronTimes.toIntOrNull() ?: 5)
+            cronOutput = cronParse(cronExpression, cronTimes.toIntOrNull() ?: 5, cronType)
         }) {
             Text("解析")
         }
@@ -121,9 +130,9 @@ fun Cron() {
     )
 }
 
-fun cronParse(cronExpression: String, times: Int = 10): String {
+fun cronParse(cronExpression: String, times: Int = 10, cronType: String): String {
     // 创建 Cron 解析器
-    val cronParser = CronParser(CronDefinitionBuilder.instanceDefinitionFor(CronType.SPRING))
+    val cronParser = CronParser(CronDefinitionBuilder.instanceDefinitionFor(CronType.valueOf(cronType)))
 
     // 解析 Cron 表达式
     val cron = cronParser.parse(cronExpression)
