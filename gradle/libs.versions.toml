@@ -12,11 +12,13 @@ androidx-material = "1.11.0"
 androidx-test-junit = "1.1.5"
 compose = "1.6.3"
 compose-plugin = "1.6.0"
+cronUtilsVersion = "9.2.1"
 jacksonDatabind = "2.17.0"
 junit = "4.13.2"
 kotlin = "1.9.22"
 
 [libraries]
+cronutils-cron-utils = { module = "com.cronutils:cron-utils", version.ref = "cronUtilsVersion" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jacksonDatabind" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }

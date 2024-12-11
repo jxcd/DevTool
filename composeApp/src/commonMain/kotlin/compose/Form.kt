@@ -82,7 +82,7 @@ fun InputTextWithSubmit(
  * 数字输入框
  */
 @Composable
-fun InputNumber(
+fun InputLong(
     label: String,
     value: Long?,
     range: LongRange = 0..Long.MAX_VALUE,

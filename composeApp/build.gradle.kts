@@ -35,6 +35,8 @@ kotlin {
             // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
             implementation(libs.jackson.databind)
 
+            // https://mvnrepository.com/artifact/com.cronutils/cron-utils
+            implementation(libs.cronutils.cron.utils)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
