@@ -55,7 +55,7 @@ fun Frame() {
         }
     ) {
         Card(
-            modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+            modifier = Modifier.fillMaxWidth().padding(8.dp)
         ) {
             when (page) {
                 "MainPage" -> MainPage { page = it }

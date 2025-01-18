@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,22 +41,17 @@ import kotlin.jvm.optionals.getOrNull
  */
 @Composable
 fun TimeTool() {
-    Card(
+    Column(
         modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            TimestampAndDateTime()
+        TimestampAndDateTime()
 
-            Divider(modifier = Modifier.height(2.dp).fillMaxWidth(0.8f))
+        Divider(modifier = Modifier.height(2.dp).fillMaxWidth())
 
-            Cron()
-        }
+        Cron()
     }
-
-
 }
 
 @Composable
@@ -62,26 +59,49 @@ fun TimestampAndDateTime() {
     var timeText by remember { mutableStateOf(TimeUtil.formatDateTime(LocalDateTime.now())) }
     var timestampText by remember { mutableStateOf("0") }
 
-    InputText(
-        label = "时间戳",
-        value = timestampText,
-        onValueChange = { timestampText = it })
+    val setToNow = {
+        val temp = LocalDateTime.now()
+        timeText = TimeUtil.formatDateTime(temp)
+        timestampText = TimeUtil.getLocalDateTimeMill(temp).toString()
+    }
 
-    InputText(label = "日期时间", value = timeText, onValueChange = { timeText = it })
+    LaunchedEffect(null) {
+        setToNow()
+    }
 
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceAround
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
+        InputText(
+            label = "时间戳",
+            value = timestampText,
+            onValueChange = { timestampText = it })
+
+        val toLocalDateTime = {
+            val temp = TimeUtil.parse(timestampText.toLongOrNull() ?: 0)
+            timeText = TimeUtil.formatDateTime(temp)
+        }
+        Button(onClick = toLocalDateTime) { Text(" --> 日期") }
+    }
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        InputText(label = "日期时间", value = timeText, onValueChange = { timeText = it })
+
         Button(onClick = {
             val temp = TimeUtil.parse(timeText)
             timestampText = TimeUtil.getLocalDateTimeMill(temp).toString()
-        }) { Text("日期转时间戳") }
+        }) { Text(" --> 时间戳") }
 
-        Button(onClick = {
-            val temp = TimeUtil.parse(timestampText.toLongOrNull() ?: 0)
-            timeText = TimeUtil.formatDateTime(temp)
-        }) { Text("时间戳转日期") }
+        Button(onClick = setToNow, colors = ButtonDefaults.outlinedButtonColors()) {
+            Text("现在")
+        }
+
     }
 }
 
@@ -94,16 +114,10 @@ fun Cron() {
     var cronOutput by remember { mutableStateOf("") }
 
     Row(
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
-        SelectOptions(
-            label = "类型",
-            value = cronType,
-            cronTypes,
-            onValueChange = { cronType = it })
-
         InputText(
             label = "Cron表达式",
             value = cronExpression,
@@ -114,7 +128,14 @@ fun Cron() {
         }) {
             Text("解析")
         }
-        TextField(
+
+        SelectOptions(
+            label = "类型",
+            value = cronType,
+            cronTypes,
+            onValueChange = { cronType = it })
+
+        OutlinedTextField(
             value = cronTimes, onValueChange = { cronTimes = it },
             modifier = Modifier.width(60.dp),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
@@ -124,15 +145,17 @@ fun Cron() {
     OutlinedTextField(
         value = cronOutput,
         onValueChange = {},
-        modifier = Modifier.fillMaxWidth(0.9f),
+        modifier = Modifier.fillMaxWidth(),
         label = { Text("Cron表达式未来 $cronTimes 次执行时间") },
-        readOnly = true
+        readOnly = true,
+        minLines = 5,
     )
 }
 
 fun cronParse(cronExpression: String, times: Int = 10, cronType: String): String {
     // 创建 Cron 解析器
-    val cronParser = CronParser(CronDefinitionBuilder.instanceDefinitionFor(CronType.valueOf(cronType)))
+    val cronParser =
+        CronParser(CronDefinitionBuilder.instanceDefinitionFor(CronType.valueOf(cronType)))
 
     // 解析 Cron 表达式
     val cron = cronParser.parse(cronExpression)

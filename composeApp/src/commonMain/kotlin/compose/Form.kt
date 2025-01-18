@@ -11,6 +11,7 @@ import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
@@ -191,13 +192,13 @@ fun SelectOptions(
     onValueChange: (String) -> Unit,
     enabled: Boolean = true,
     buttonModifier: Modifier = Modifier,
-    buttonColors: ButtonColors = ButtonDefaults.buttonColors(),
+    buttonColors: ButtonColors = ButtonDefaults.outlinedButtonColors(),
     listModifier: Modifier = Modifier,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
     Box() {
-        Button(
+        OutlinedButton(
             onClick = { expanded = !expanded },
             modifier = buttonModifier,
             enabled = enabled,
