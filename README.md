@@ -4,7 +4,7 @@
 ## 工具和环境
 
 1. AndroidStudio
-2. [graalvm 17](https://www.graalvm.org/downloads/#)
+2. [graalvm 21](https://www.graalvm.org/downloads/#)
 
 
 
